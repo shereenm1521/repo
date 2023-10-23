@@ -25,10 +25,11 @@ spec:
             - name: MONGO_INITDB_ROOT_PASSWORD
               value: "1521"
           args:
-            - mongod
             - "--replSet"
             - rs0
             - "--auth"
+            - "--keyFile"
+            - "/keyfile/keyfile"
           ports:
             - containerPort: 27017
           volumeMounts:
