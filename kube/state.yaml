@@ -14,6 +14,7 @@ spec:
         role: mongo
         environment: test
     spec:
+      serviceAccountName: kubernetes
       terminationGracePeriodSeconds: 10
       containers:
         - name: mongo
