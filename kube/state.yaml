@@ -1,0 +1,50 @@
+apiVersion: apps/v1    
+kind: StatefulSet
+metadata:
+  name: mongo
+spec:
+  serviceName: "mongo"
+  replicas: 3
+  selector:
+    matchLabels:
+      role: mongo
+  template:
+    metadata:
+      labels:
+        role: mongo
+        environment: test
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mongo
+          image: us-central1-docker.pkg.dev/sherein/my-repo/mongo:5.0.15
+          imagePullPolicy: Always
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: shery
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: "1521"
+          command:
+            - mongod
+            - "--replSet"
+            - rs0
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-persistent-storage
+              mountPath: /data/db
+        - name: mongo-sidecar
+          image: us-central1-docker.pkg.dev/sherein/my-repo/cvallance/mongo-k8s-sidecar:latest
+          env:
+            - name: MONGO_SIDECAR_POD_LABELS
+              value: "role=mongo,environment=test"
+  volumeClaimTemplates:
+  - metadata:
+      name: mongo-persistent-storage
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "fast"
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 50Gi
