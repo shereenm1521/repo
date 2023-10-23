@@ -5,3 +5,4 @@ COPY keyfile /keyfile/
 RUN chown 999:999 /keyfile/keyfile
 
 CMD ["mongod", "--auth"]
+
