@@ -42,14 +42,22 @@ spec:
             - name: MONGO_SIDECAR_POD_LABELS
               value: "role=mongo,environment=test"
             - name: KUBERNETES_MONGO_SERVICE_NAME
-              value: "mongo"  
+              value: "mongo"
+            - name: KUBE_NAMESPACE
+              value: "default"
+            - name: MONGODB_USERNAME
+              value: "shery"
+            - name: MONGODB_PASSWORD
+              value: "1521"
+            - name: MONGODB_DATABASE
+              value: "admin"  
   volumeClaimTemplates:
   - metadata:
       name: mongo-persistent-storage
       annotations:
-        volume.beta.kubernetes.io/storage-class: "fast"
+        volume.beta.kubernetes.io/storage-class: "standard-rwo"
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 50Gi
+          storage: 10Gi
