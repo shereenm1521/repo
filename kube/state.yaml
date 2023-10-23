@@ -24,7 +24,7 @@ spec:
               value: shery
             - name: MONGO_INITDB_ROOT_PASSWORD
               value: "1521"
-          command:
+          args:
             - mongod
             - "--replSet"
             - rs0
