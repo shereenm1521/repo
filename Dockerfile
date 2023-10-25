@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:20-slim
 
 WORKDIR /app
 
@@ -9,11 +9,9 @@ RUN npm install
 COPY . /app
 
 # Add environment variables for MongoDB connection
-ENV MONGO_HOST=mongo-db
-ENV MONGO_PORT=27017
-ENV MONGO_USERNAME=shery
-ENV MONGO_PASSWORD=1521
-ENV MONGO_DATABASE=mydatabase
+ENV DBuser=shery 
+ENV DBpass=1521  
+ENV DBhosts=mongo-0.mongo.default.svc.cluster.local:27017
 
 EXPOSE 3000
 
